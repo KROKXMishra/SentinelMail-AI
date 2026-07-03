@@ -1,0 +1,18 @@
+services:
+
+  sentinelmail:
+
+    build: .
+
+    container_name: sentinelmail-ai
+
+    ports:
+      - "5000:5000"
+
+    env_file:
+      - .env
+
+    volumes:
+      - .:/app
+
+    restart: unless-stopped

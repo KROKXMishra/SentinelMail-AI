@@ -1,0 +1,262 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="container">
+
+    <!-- ================= HEADER ================= -->
+
+    <div class="dashboard-header">
+
+        <h1>
+            Welcome {{ user.username }} 👋
+        </h1>
+
+        <p>
+            Here's an overview of your SentinelMail AI activity.
+        </p>
+
+        <div class="dashboard-actions">
+
+            <a
+                href="{{ url_for('predict.predict') }}"
+                class="btn dashboard-btn">
+
+                🔍 Scan New Message
+
+            </a>
+
+        </div>
+
+    </div>
+
+    <!-- ================= STATS ================= -->
+
+    <div class="stats">
+
+        <div class="card">
+
+            <h2>📨</h2>
+
+            <h1>{{ total }}</h1>
+
+            <p>Total Scans</p>
+
+        </div>
+
+        <div class="card">
+
+            <h2>🚨</h2>
+
+            <h1>{{ spam }}</h1>
+
+            <p>Spam Detected</p>
+
+        </div>
+
+        <div class="card">
+
+            <h2>✅</h2>
+
+            <h1>{{ safe }}</h1>
+
+            <p>Safe Messages</p>
+
+        </div>
+
+        <div class="card">
+
+            <h2>🎯</h2>
+
+            <h1>{{ "%.2f"|format(avg_confidence) }}%</h1>
+
+            <p>Average Confidence</p>
+
+        </div>
+
+        <div class="card">
+
+            <h2>📅</h2>
+
+            <h1>{{ today_scans }}</h1>
+
+            <p>Today's Scans</p>
+
+        </div>
+
+        <div class="card">
+
+            <h2>🕒</h2>
+
+            <h1>
+
+                {% if last_scan_time %}
+
+                    {{ last_scan_time.strftime("%I:%M %p") }}
+
+                {% else %}
+
+                    No Scans
+
+                {% endif %}
+
+            </h1>
+
+            <p>Last Scan</p>
+
+        </div>
+
+    </div>
+
+    <!-- ================= RECENT ACTIVITY ================= -->
+
+    <div class="recent-section">
+
+        <h2>
+            📜 Recent Activity
+        </h2>
+
+        {% if recent %}
+
+        <table class="history-table">
+
+            <thead>
+
+                <tr>
+
+                    <th>Date</th>
+                    <th>Prediction</th>
+                    <th>Confidence</th>
+                    <th>Risk</th>
+
+                </tr>
+
+            </thead>
+
+            <tbody>
+
+                {% for item in recent %}
+
+                <tr>
+
+                    <td>
+
+                        {{ item.created_at.strftime("%d %b %Y %I:%M %p") }}
+
+                    </td>
+
+                    <td>
+
+                        {% if item.prediction == "Spam" %}
+
+                            <span class="badge badge-spam">
+
+                                🔴 Spam
+
+                            </span>
+
+                        {% else %}
+
+                            <span class="badge badge-safe">
+
+                                🟢 Not Spam
+
+                            </span>
+
+                        {% endif %}
+
+                    </td>
+
+                    <td>
+
+                        {{ "%.2f"|format(item.confidence) }}%
+
+                    </td>
+
+                    <td>
+
+                        {% if item.risk == "High" %}
+
+                            <span class="badge badge-high">
+
+                                🔴 High
+
+                            </span>
+
+                        {% elif item.risk == "Medium" %}
+
+                            <span class="badge badge-medium">
+
+                                🟠 Medium
+
+                            </span>
+
+                        {% elif item.risk == "Low" %}
+
+                            <span class="badge badge-low">
+
+                                🟡 Low
+
+                            </span>
+
+                        {% elif item.risk == "Safe" %}
+
+                            <span class="badge badge-safe">
+
+                                🟢 Safe
+
+                            </span>
+
+                        {% else %}
+
+                            <span class="badge badge-very-safe">
+
+                                🟢 Very Safe
+
+                            </span>
+
+                        {% endif %}
+
+                    </td>
+
+                </tr>
+
+                {% endfor %}
+
+            </tbody>
+
+        </table>
+
+        {% else %}
+
+        <div class="empty-state">
+
+            <h3>
+
+                No scans yet.
+
+            </h3>
+
+            <p>
+
+                Start scanning your first Email or SMS to see your dashboard analytics.
+
+            </p>
+
+            <a
+                href="{{ url_for('predict.predict') }}"
+                class="btn dashboard-btn">
+
+                🔍 Scan Your First Message
+
+            </a>
+
+        </div>
+
+        {% endif %}
+
+    </div>
+
+</div>
+
+{% endblock %}

@@ -1,0 +1,141 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<section class="hero">
+
+<h1>
+
+AI Powered Spam & Phishing Detection
+
+</h1>
+
+<p>
+
+Detect Spam Emails and SMS using Machine Learning.
+
+Understand every prediction with AI-generated explanations.
+
+Store prediction history and monitor analytics in one platform.
+
+</p>
+
+<div class="buttons">
+
+<a href="{{ url_for('auth.register') }}" class="btn">
+
+Get Started
+
+</a>
+
+<a href="{{ url_for('auth.login') }}" class="btn secondary">
+
+Login
+
+</a>
+
+</div>
+
+</section>
+
+<section class="features">
+
+<div class="card">
+
+<h2>
+
+🛡 Spam Detection
+
+</h2>
+
+<p>
+
+Fast and accurate spam classification using a trained Scikit-learn model.
+
+</p>
+
+</div>
+
+<div class="card">
+
+<h2>
+
+🤖 AI Explanation
+
+</h2>
+
+<p>
+
+Groq LLM explains why a message is spam and highlights suspicious indicators.
+
+</p>
+
+</div>
+
+<div class="card">
+
+<h2>
+
+📊 Analytics Dashboard
+
+</h2>
+
+<p>
+
+Track scan history, spam statistics, confidence scores and trends.
+
+</p>
+
+</div>
+
+<div class="card">
+
+<h2>
+
+🔒 Secure Authentication
+
+</h2>
+
+<p>
+
+User accounts are protected using hashed passwords and Flask-Login sessions.
+
+</p>
+
+</div>
+
+<div class="card">
+
+<h2>
+
+📁 Prediction History
+
+</h2>
+
+<p>
+
+Every prediction is securely stored in MySQL and can be searched later.
+
+</p>
+
+</div>
+
+<div class="card">
+
+<h2>
+
+📄 PDF Reports
+
+</h2>
+
+<p>
+
+Generate professional PDF reports containing spam analysis results.
+
+</p>
+
+</div>
+
+</section>
+
+{% endblock %}

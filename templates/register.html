@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h1>Create Account</h1>
+
+<form method="POST">
+
+{{ form.hidden_tag() }}
+
+<p>{{ form.username.label }}</p>
+{{ form.username() }}
+
+<p>{{ form.email.label }}</p>
+{{ form.email() }}
+
+<p>{{ form.password.label }}</p>
+{{ form.password() }}
+
+<p>{{ form.confirm_password.label }}</p>
+{{ form.confirm_password() }}
+
+{{ form.submit() }}
+
+</form>
+
+{% endblock %}

@@ -1,0 +1,228 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="container">
+
+    <!-- ================= Scan Box ================= -->
+
+    <div class="scan-box">
+
+        <h2>💬 Scan Email / SMS</h2>
+
+        <form method="POST" enctype="multipart/form-data">
+
+            <label class="upload-label">
+
+                📂 Upload Email File (.txt / .eml)
+
+            </label>
+
+            <input
+                type="file"
+                name="file"
+                accept=".txt,.eml">
+
+            <div class="divider">
+
+                <span>OR</span>
+
+            </div>
+
+            <label>
+
+                Paste Email / SMS
+
+            </label>
+
+            <textarea
+                name="message"
+                placeholder="Paste your Email or SMS here...">{{ message }}</textarea>
+
+            <br>
+
+            <input
+                type="submit"
+                value="🔍 Scan Message"
+                class="btn">
+
+        </form>
+
+    </div>
+
+    <!-- ================= Prediction ================= -->
+
+    {% if result %}
+
+    <div class="prediction-panel">
+
+        <h2>📊 Prediction Result</h2>
+
+        <div class="prediction-grid">
+
+            <!-- Status -->
+
+            <div class="prediction-card">
+
+                <h3>Status</h3>
+
+                {% if result.prediction == "Spam" %}
+
+                    <span class="badge badge-spam">
+
+                        🔴 Spam
+
+                    </span>
+
+                {% else %}
+
+                    <span class="badge badge-safe">
+
+                        🟢 Not Spam
+
+                    </span>
+
+                {% endif %}
+
+            </div>
+
+            <!-- Confidence -->
+
+            <div class="prediction-card">
+
+                <h3>Confidence</h3>
+
+                <h1>{{ "%.2f"|format(result.confidence) }}%</h1>
+
+                <div class="progress">
+
+                    <div
+                        class="progress-bar"
+                        data-width="{{ result.confidence }}">
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!-- Risk -->
+
+            <div class="prediction-card">
+
+                <h3>Risk</h3>
+
+                {% if result.risk == "High" %}
+
+                    <span class="badge badge-high">
+
+                        🔴 High
+
+                    </span>
+
+                {% elif result.risk == "Medium" %}
+
+                    <span class="badge badge-medium">
+
+                        🟠 Medium
+
+                    </span>
+
+                {% elif result.risk == "Low" %}
+
+                    <span class="badge badge-low">
+
+                        🟡 Low
+
+                    </span>
+
+                {% elif result.risk == "Safe" %}
+
+                    <span class="badge badge-safe">
+
+                        🟢 Safe
+
+                    </span>
+
+                {% else %}
+
+                    <span class="badge badge-very-safe">
+
+                        🟢 Very Safe
+
+                    </span>
+
+                {% endif %}
+
+            </div>
+
+        </div>
+
+    </div>
+
+    {% endif %}
+
+    <!-- ================= AI Analysis ================= -->
+
+    {% if explanation %}
+
+    <div class="ai-panel">
+
+        <h2>🤖 AI Security Analysis</h2>
+
+        <div class="ai-content">
+
+            {{ explanation|safe }}
+
+        </div>
+
+    </div>
+
+    {% endif %}
+
+    <!-- ================= Download PDF ================= -->
+
+    {% if prediction_id %}
+
+    <div class="download-panel">
+
+        <a
+            href="{{ url_for('report.report', prediction_id=prediction_id) }}"
+            class="btn download-btn">
+
+            📄 Download PDF Report
+
+        </a>
+
+    </div>
+
+    {% endif %}
+
+    <!-- ================= Original Message ================= -->
+
+    {% if message %}
+
+    <div class="message-panel">
+
+        <h2>📧 Original Message</h2>
+
+        <pre>{{ message }}</pre>
+
+    </div>
+
+    {% endif %}
+
+</div>
+<script>
+
+document.addEventListener("DOMContentLoaded", function () {
+
+    document.querySelectorAll(".progress-bar").forEach(function (bar) {
+
+        bar.style.width = bar.dataset.width + "%";
+
+    });
+
+});
+
+</script>
+{% endblock %}
