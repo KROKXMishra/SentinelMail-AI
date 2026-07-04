@@ -3,11 +3,24 @@ import string
 from nltk.corpus import stopwords
 from nltk.stem.porter import PorterStemmer
 
+# Download required NLTK resources if missing
+for resource, path in [
+    ("punkt", "tokenizers/punkt"),
+    ("punkt_tab", "tokenizers/punkt_tab"),
+    ("stopwords", "corpora/stopwords"),
+]:
+    try:
+        nltk.data.find(path)
+    except LookupError:
+        nltk.download(resource)
+
 ps = PorterStemmer()
-stop_words = set(stopwords.words('english'))
+stop_words = set(stopwords.words("english"))
 
 def transform_text(text):
+
     text = text.lower()
+
     text = nltk.word_tokenize(text)
 
     y = []
