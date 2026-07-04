@@ -2,25 +2,30 @@
 
 {% block content %}
 
-<h1>Create Account</h1>
-
 <form method="POST">
 
-{{ form.hidden_tag() }}
+    <h2>Create Account</h2>
 
-<p>{{ form.username.label }}</p>
-{{ form.username() }}
+    {{ form.hidden_tag() }}
 
-<p>{{ form.email.label }}</p>
-{{ form.email() }}
+    <p>{{ form.username.label }}</p>
+    {{ form.username() }}
 
-<p>{{ form.password.label }}</p>
-{{ form.password() }}
+    <p>{{ form.email.label }}</p>
+    {{ form.email() }}
 
-<p>{{ form.confirm_password.label }}</p>
-{{ form.confirm_password() }}
+    <p>{{ form.password.label }}</p>
+    {{ form.password() }}
 
-{{ form.submit() }}
+    <p>{{ form.confirm_password.label }}</p>
+    {{ form.confirm_password() }}
+
+    {{ form.submit() }}
+
+    <p class="form-footer">
+        Already have an account?
+        <a href="{{ url_for('auth.login') }}">Login</a>
+    </p>
 
 </form>
 
