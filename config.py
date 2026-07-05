@@ -4,24 +4,26 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-password = quote_plus(os.getenv("DB_PASSWORD", ""))
-
 class Config:
 
     SECRET_KEY = os.getenv("SECRET_KEY", "dev-secret-key")
 
+    DB_USER = os.getenv("DB_USER")
+    DB_PASSWORD = quote_plus(os.getenv("DB_PASSWORD", ""))
+    DB_HOST = os.getenv("DB_HOST")
+    DB_PORT = os.getenv("DB_PORT")
+    DB_NAME = os.getenv("DB_NAME")
+
     SQLALCHEMY_DATABASE_URI = (
-        f"mysql+pymysql://"
-        f"{os.getenv('DB_USER')}:"
-        f"{password}@"
-        f"{os.getenv('DB_HOST')}:"
-        f"{os.getenv('DB_PORT')}/"
-        f"{os.getenv('DB_NAME')}"
+        f"mysql+pymysql://{DB_USER}:{DB_PASSWORD}"
+        f"@{DB_HOST}:{DB_PORT}/{DB_NAME}"
     )
 
     SQLALCHEMY_TRACK_MODIFICATIONS = False
 
     SQLALCHEMY_ENGINE_OPTIONS = {
+        "pool_pre_ping": True,
+        "pool_recycle": 280,
         "connect_args": {
             "ssl": {}
         }
