@@ -82,7 +82,8 @@ def predict():
 
                 explanation = markdown.markdown(explanation)
 
-            except Exception:
+            except Exception as e:
+                print("GROQ API ERROR:", repr(e), flush=True)
 
                 explanation = markdown.markdown("""
 ## ⚠️ AI Explanation Unavailable
